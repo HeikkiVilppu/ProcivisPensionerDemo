@@ -1,0 +1,62 @@
+header {
+    width: 100%;
+    line-height: 1.5;
+  }
+  
+  .toolbar {
+    background-color: #0077cc;
+    padding: 10px;
+    display: flex;
+    justify-content: flex-start; /* Aligns buttons to the left */
+    align-items: center;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 50px; /* Adjust height as needed */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Toolbar Title */
+.toolbar-title {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    flex-grow: 1;
+    text-align: center;
+  }
+  
+  .toolbar button {
+    background-color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
+    margin: 0 10px; /* Ensures spacing between buttons */
+  }
+  
+  .toolbar button:hover {
+    background-color: lightgray;
+  }
+  
+  .wrapper {
+    position: absolute; /* Ensures it stays in place */
+    top: 70px; /* Space below the toolbar */
+    left: 20px; /* Left padding */
+    padding: 20px;
+  }
+  
+  @media (min-width: 1024px) {
+    header {
+      display: flex;
+      place-items: center;
+      padding-right: calc(var(--section-gap) / 2);
+    }
+  
+    .wrapper {
+      display: flex;
+      place-items: flex-start;
+      flex-wrap: wrap;
+    }
+  }
