@@ -1,6 +1,6 @@
 import { ref, onMounted } from 'vue';
 
-export function useApi() {
+export function useApiQr() {
     const loading = ref<boolean>(false);
     const post = ref<string | undefined>("");
 

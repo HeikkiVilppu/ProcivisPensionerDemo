@@ -43,15 +43,20 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            '^/weatherforecast': {
-                target,
-                secure: false
+          '^/weatherforecast': {
+            target,
+            secure: false
+          },
+          '^/qrcode': {
+            target,
+            secure: false
+          },
+            '^/qrcode/pension': {
+            target,
+            secure: false, // If using HTTPS with self-signed certificates
+    }
         },
-            '^/qrcode': {
-              target,
-              secure: false
-            }
-        },
+
         port: 5173,
         https: {
             key: fs.readFileSync(keyFilePath),

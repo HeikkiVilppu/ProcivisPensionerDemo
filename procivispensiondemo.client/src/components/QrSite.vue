@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useApi } from './QrSite'
-const { loading, post } = useApi();
+import { useApiQr } from './QrSite'
+const { loading, post } = useApiQr();
 </script>
 
 <template>
