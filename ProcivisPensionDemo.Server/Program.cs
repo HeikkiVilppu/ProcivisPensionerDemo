@@ -11,6 +11,8 @@ builder.Services.AddSwaggerGen();
 // Lisää SignalR palveluihin
 builder.Services.AddSignalR();
 builder.Services.AddScoped<QRCodeService>();
+builder.Services.AddHttpClient<ProcivisService>();
+
 var corsPolicy = "_allowVueFrontend";
 builder.Services.AddCors(options =>
 {

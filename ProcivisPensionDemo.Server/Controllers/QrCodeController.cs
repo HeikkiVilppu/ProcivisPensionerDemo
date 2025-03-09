@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using ProcivisPensionDemo.Server.Dtos;
 using ProcivisPensionDemo.Server.Services;
 using ZXing.QrCode.Internal;
 
@@ -13,12 +14,14 @@ namespace ProcivisPensionDemo.Server.Controllers
         private readonly ILogger<QrCodeController> _logger;
         private readonly IHubContext<QrCodeHub> _hubContext;
         private readonly QRCodeService _qrCodeService;
+        private readonly ProcivisService _procivisService;
 
-        public QrCodeController(ILogger<QrCodeController> logger, IHubContext<QrCodeHub> hubContext, QRCodeService qrCodeService)
+        public QrCodeController(ILogger<QrCodeController> logger, IHubContext<QrCodeHub> hubContext, QRCodeService qrCodeService, ProcivisService procivisService)
         {
             _logger = logger;
             _hubContext = hubContext;
             _qrCodeService = qrCodeService;
+            _procivisService = procivisService;
         }
 
 
@@ -84,6 +87,17 @@ namespace ProcivisPensionDemo.Server.Controllers
             var jsonContent = System.IO.File.ReadAllText(filePath);
 
             return jsonContent;
+        }
+
+        [HttpPost("verify")]
+        public async Task<IActionResult> VerifyProof([FromBody] VerificationDto verificationDto)
+        {
+            bool isPensioner = await _procivisService.VerifyPensionerStatusAsync(verificationDto.ProofToken);
+
+            // L‰hetet‰‰n tulos takaisin uimahallin koneelle SignalR:n avulla
+            await _hubContext.Clients.Client(verificationDto.ConnectionId).SendAsync("ReceiveVerificationResult", isPensioner);
+
+            return Ok(new { isPensioner });
         }
     }
 }
