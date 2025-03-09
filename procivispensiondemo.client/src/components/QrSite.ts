@@ -7,7 +7,6 @@ export function useApiQr() {
     const fetchData = async () => {
         loading.value = true;
         post.value = "";
-
         try {
           const response = await fetch('qrcode'); // Ensure correct casing
           const data = await response.json(); // Use .text() instead of .json() if string

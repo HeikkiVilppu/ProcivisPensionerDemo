@@ -1,14 +1,15 @@
+
 <script setup lang="ts">
-import { useApiForPensionCredentials } from './ResponseSite'
-const { post } = useApiForPensionCredentials();
+const response = defineProps({
+  response: String, // Expecting an object response
+});
 </script>
 
 <template>
     <div class="weather-component">
         <h2>QR Response from API when QR is read:</h2>
-
         <div class="content">
-          {{post}}
+          {{response}}
         </div>
     </div>
 </template>
