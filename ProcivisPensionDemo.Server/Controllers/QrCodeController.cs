@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using ProcivisPensionDemo.Server.Services;
+using ZXing.QrCode.Internal;
 
 namespace ProcivisPensionDemo.Server.Controllers
 {
@@ -11,17 +12,30 @@ namespace ProcivisPensionDemo.Server.Controllers
 
         private readonly ILogger<QrCodeController> _logger;
         private readonly IHubContext<QrCodeHub> _hubContext;
-        public QrCodeController(ILogger<QrCodeController> logger, IHubContext<QrCodeHub> hubContext)
+        private readonly QRCodeService _qrCodeService;
+
+        public QrCodeController(ILogger<QrCodeController> logger, IHubContext<QrCodeHub> hubContext, QRCodeService qrCodeService)
         {
             _logger = logger;
             _hubContext = hubContext;
+            _qrCodeService = qrCodeService;
         }
 
-        [HttpGet(Name = "GetTestResponse")]
+
+        [HttpGet(Name = "GetQrCode")]
         public IActionResult Get()
         {
-            var response = new { id = 1, message = "Response success!" }; // Returning an object
-            return Ok(response);
+            string text = $"{Request.Scheme}://{Request.Host}{Request.Path}";
+
+            if (string.IsNullOrEmpty(text))
+            {
+                return BadRequest("Text is required to generate a QR code.");
+            }
+
+            var qrCodeImage = _qrCodeService.GenerateQRCode(text);
+
+            // Return the QR code image as a PNG
+            return File(qrCodeImage, "image/png");
         }
 
         /// <summary>

@@ -10,7 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // Lisää SignalR palveluihin
 builder.Services.AddSignalR();
-
+builder.Services.AddScoped<QRCodeService>();
 var corsPolicy = "_allowVueFrontend";
 builder.Services.AddCors(options =>
 {
